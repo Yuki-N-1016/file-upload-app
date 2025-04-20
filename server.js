@@ -78,6 +78,15 @@ app.get('/', (req, res) => {
   `);
 });
 
+const fs = require('fs');
+const path = require('path');
+
+// uploads フォルダがなければ作成
+const uploadPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath);
+}
+
 // アップロード処理
 app.post('/upload', upload.array('file', 10), (req, res) => {
   if (!req.files || req.files.length === 0) {
