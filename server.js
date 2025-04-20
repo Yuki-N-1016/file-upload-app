@@ -79,7 +79,6 @@ app.get('/', (req, res) => {
 });
 
 const fs = require('fs');
-const path = require('path');
 
 // uploads フォルダがなければ作成
 const uploadPath = path.join(__dirname, 'uploads');
