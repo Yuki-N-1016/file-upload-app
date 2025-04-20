@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ファイルアップロード</title>
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // フォーム送信を防ぐ
+
+            const fileInput = document.getElementById("fileInput");
+
+            if (!fileInput.files.length) {
+                alert("ファイルを選択してください！");
+                return;
+            }
+
+            const formData = new FormData();
+            for (let file of fileInput.files) {
+                formData.append("files", file);
+            }
+
+            try {
+                const response = await fetch("/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.text();
+                console.log("📩 サーバーからのレスポンス:", result);
+                document.getElementById("status").innerText = result;
+            } catch (error) {
+                console.error("❌ エラー:", error);
+            }
+        });
+
+    </script>
+</head>
+<body>
+    <h2>Hello</h2>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" multiple required> <!-- multiple を追加 -->
+        <button type="submit">アップロード</button>
+    </form>
+    <p id="status"></p>
+</body>
+</html>
